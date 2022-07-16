@@ -151,7 +151,7 @@ class Categories:
                                                                           
     def find_subcategories(self, category):
         """Find the subcategories of certain category."""
-        def find_subcategories_gen(category, categories, found=False): 
+        def find_subcategories_gen(category, categories): 
             def flat(lis):
                 flatList = []
                 # Iterate with outer list
@@ -165,14 +165,14 @@ class Categories:
                 return flatList
             if type(categories) == list: 
                 for index, child in enumerate(categories): 
-                    yield from find_subcategories_gen(category, child, False) 
+                    yield from find_subcategories_gen(category, child) 
                     if child == category and index + 1 < len(categories) and type(categories[index + 1]) == list: 
                         # When the target category is found, 
                         # recursively call this generator on the subcategories 
                         # with the flag set as True. 
                         yield from flat(categories[index + 1])
             else: 
-                if categories == category or found == True: 
+                if categories == category: # or found == True: 
                     yield categories
         return [i for i in find_subcategories_gen(category, self._categories)]
     
